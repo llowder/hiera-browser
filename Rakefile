@@ -1,5 +1,3 @@
-require 'lookout/rack/test/rake'
-
 desc "demo environment"
 task :demo do
   ENV['HIERA_YAML'] = './spec/fixtures/hiera.yaml'
