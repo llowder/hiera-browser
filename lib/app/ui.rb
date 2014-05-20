@@ -1,10 +1,10 @@
-require 'sinatra'
 require 'hiera_browser'
 require 'ap'
 require 'json'
 require 'slim'
+require 'scorched'
 
-class HieraBrowserUI < Sinatra::Application
+class HieraBrowserUI < Scorched::Controller
   # api
   get '/api/v1/nodes' do
     @nodes = Node.list
@@ -44,15 +44,20 @@ class HieraBrowserUI < Sinatra::Application
   get '/add/additive/:key' do |key|
     session[:keys] = session[:keys] || []
     session[:keys] << key
-    redirect back
+    redirect request.referer
   end
 
   get '/remove/additive/:key' do |key|
     session[:keys].reject!{|k| k == key}
-    redirect back
+    redirect request.referer
   end
 
   get '/debug/session' do
     JSON.generate(session[:keys])
   end
+
+  def slim(template)
+    Slim::Template.new("lib/app/views/#{template.to_s}.slim").render(self)
+  end
 end
+

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'hiera', '1.3.2'
-gem 'sinatra', '~> 1.4.5'
+gem 'scorched', '0.22'
 gem 'slim'
 gem 'awesome_print', '1.2.0'
 gem 'tilt', '1.4.1'
