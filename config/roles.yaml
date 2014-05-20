@@ -10,6 +10,12 @@ roles:
     provisioners:
       - {type: hosts}
       - {type: pe_bootstrap, role: !ruby/sym master}
+      - {type: shell, inline: 'yum install -y patch ruby-devel gcc-c++ compat-gcc-32 compat-gcc-32-c++' }
+      - {type: shell, inline: <<-EOS
+        cd /vagrant
+        gem install bundler
+        bundle install --without=development
+      EOS }
 
   pe-puppet-agent:
     private_networks:

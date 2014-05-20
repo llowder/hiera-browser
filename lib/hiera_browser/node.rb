@@ -1,5 +1,6 @@
 require 'yaml'
 require 'puppet'
+require 'puppet/interface'
 
 class Node
   attr_reader :certname, :facts, :node_dir
@@ -21,7 +22,11 @@ class Node
   end
 
   def facts_yaml
-    YAML.load_file(File.join(@@node_dir,"#{@certname}.yaml")).facts.values
+    begin
+      p Puppet::Interface[:node, '0.0.1'].find(@certname).facts.values
+    rescue
+      YAML.load_file(File.join(@@node_dir,"#{@certname}.yaml")).facts.values
+    end
   end
 
   def hiera_values(args={})
